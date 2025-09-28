@@ -1,0 +1,344 @@
+"<!DOCTYPE html>
+<html lang=\\"en\\">
+<head>
+    <meta charset=\\"utf-8\\" />
+    <meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\" />
+    <meta name=\\"theme-color\\" content=\\"#000000\\" />
+    <meta name=\\"description\\" content=\\"Ajith Vasu - Techno-Creative Visionary | Painter, Musician, Multimedia & Animation Director\\" />
+    <title>Ajith Vasu | Portfolio</title>
+    <link href=\\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap\\" rel=\\"stylesheet\\">
+    <script src=\\"https://unpkg.com/react@18/umd/react.production.min.js\\"></script>
+    <script src=\\"https://unpkg.com/react-dom@18/umd/react-dom.production.min.js\\"></script>
+    <script src=\\"https://unpkg.com/framer-motion@10/dist/framer-motion.js\\"></script>
+    <script src=\\"https://cdn.tailwindcss.com\\"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['class'],
+            theme: {
+                extend: {
+                    colors: {
+                        'gold-300': '#fcd34d',
+                        'gold-400': '#f59e0b',
+                        'gold-500': '#d97706'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-card-hover {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .music-visualizer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .gallery-overlay {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #3b82f6, #f59e0b);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id=\\"root\\"></div>
+    
+    <script type=\\"text/babel\\">
+        const { useState, useEffect } = React;
+        const { motion } = window.Motion;
+        
+        // Portfolio Data
+        const portfolioData = {
+            profile: {
+                name: \\"Ajith Vasu\\",
+                title: \\"Techno-Creative Visionary\\",
+                subtitle: \\"Painter • Musician • Multimedia & Animation Director\\",
+                tagline: \\"Where Art Meets Technology\\",
+                heroImage: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/o1tdbzg5_AtCorus18Mar2022.JPG\\"
+            },
+            projects: [
+                {
+                    id: 1,
+                    title: \\"Milllie Magnificent\\",
+                    category: \\"Children's Educational Series\\",
+                    description: \\"With a spark of imagination and a load of determination, Millie and her Creato-crew friends strive to find the most magnificent solutions to their neighbourhood's challenges.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/amui86fc_Millie.PNG\\",
+                    videoUrl: \\"https://www.youtube.com/watch?v=DN2M3ALUXFs\\",
+                    year: \\"2022\\"
+                },
+                {
+                    id: 2,
+                    title: \\"Hotel Transylvania - TV Series (Sony Pictures)\\",
+                    category: \\"2D Animation Series\\",
+                    description: \\"When Dracula is away, teenage Mavis runs Hotel Transylvania with her monster friends. Based on the 2012 feature film, this 2D animated series showcases comedy and character-driven storytelling.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/xukowcha_HotelT.PNG\\",
+                    videoUrl: \\"https://www.youtube.com/watch?v=LXwcxIaAglA\\",
+                    year: \\"2021\\"
+                },
+                {
+                    id: 3,
+                    title: \\"Agent Binky and the Pets of the Universe\\",
+                    category: \\"Educational Animation\\",
+                    description: \\"Developed engaging educational animations that simplify complex concepts through visual storytelling.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/xvtduiyd_Binky.PNG\\",
+                    videoUrl: \\"https://www.youtube.com/watch?v=Rz88eBMh_Vs\\",
+                    year: \\"2020\\"
+                },
+                {
+                    id: 4,
+                    title: \\"The Adventures of Chuck And Friends\\",
+                    category: \\"Technical Animation\\",
+                    description: \\"Demonstration of sophisticated animation methods combining traditional principles with modern technology.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/19p0zsm8_Chuck.PNG\\",
+                    videoUrl: \\"https://www.youtube.com/watch?v=GSDERIjis7E\\",
+                    year: \\"2019\\"
+                },
+                {
+                    id: 5,
+                    title: \\"BBC's Where in the World is Barnaby Bear\\",
+                    category: \\"Educational Interactive Media\\",
+                    description: \\"Created educational multimedia content for BBC featuring Barnaby Bear's geographical adventures, combining interactive storytelling with educational objectives for children.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/44radu25_BBear.png\\",
+                    year: \\"2018\\"
+                },
+                {
+                    id: 6,
+                    title: \\"Nickelodeon's Bubble Guppies Series\\",
+                    category: \\"Children's Animation Series\\",
+                    description: \\"Contributed to the beloved underwater adventure series featuring colorful characters in educational musical episodes that teach preschoolers through engaging storytelling.\\",
+                    image: \\"https://customer-assets.emergentagent.com/job_creative-vision-12/artifacts/euc3uxi9_BGuppies.PNG\\",
+                    videoUrl: \\"https://www.youtube.com/watch?v=leZE61W_BLs\\",
+                    year: \\"2017\\"
+                }
+            ]
+        };
+        
+        function Portfolio() {
+            const [musicPlaying, setMusicPlaying] = useState(false);
+            
+            const scrollToSection = (sectionId) => {
+                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+            };
+            
+            return (
+                <div className=\\"min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-x-hidden\\">
+                    {/* Navigation */}
+                    <nav className=\\"fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20 border-b border-white/10\\">
+                        <div className=\\"container mx-auto px-6 py-4\\">
+                            <div className=\\"flex justify-between items-center\\">
+                                <div className=\\"text-2xl font-bold bg-gradient-to-r from-blue-400 to-yellow-400 bg-clip-text text-transparent cursor-pointer\\"
+                                     onClick={() => scrollToSection('hero')}>
+                                    AV
+                                </div>
+                                <div className=\\"hidden md:flex space-x-8\\">
+                                    {['About', 'Projects', 'Gallery', 'Contact'].map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => scrollToSection(item.toLowerCase())}
+                                            className=\\"text-gray-300 hover:text-blue-400 transition-colors duration-300\\"
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    
+                    {/* Hero Section */}
+                    <section id=\\"hero\\" className=\\"relative h-screen flex items-center justify-center overflow-hidden\\">
+                        <div className=\\"absolute inset-0 z-0\\">
+                            <div 
+                                className=\\"w-full h-full bg-cover bg-center bg-no-repeat opacity-30\\"
+                                style={{ backgroundImage: `url(${portfolioData.profile.heroImage})` }}
+                            />
+                        </div>
+                        
+                        <div className=\\"absolute inset-0 z-10\\">
+                            {/* Music Visualizer Bars */}
+                            <div className=\\"music-visualizer\\">
+                                {Array.from({length: 50}).map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className=\\"absolute bg-gradient-to-t from-blue-500 to-yellow-400\\"
+                                        style={{
+                                            left: `${i * 2}%`,
+                                            bottom: 0,
+                                            width: '1%',
+                                            height: `${Math.random() * 100 + 20}px`,
+                                            opacity: 0.3,
+                                            animation: `pulse ${Math.random() * 2 + 1}s infinite`
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className=\\"relative z-20 text-center max-w-4xl mx-auto px-6\\">
+                            <h1 className=\\"text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-yellow-400 bg-clip-text text-transparent\\">
+                                {portfolioData.profile.name}
+                            </h1>
+                            
+                            <h2 className=\\"text-2xl md:text-3xl text-gray-300 mb-8 font-light\\">
+                                {portfolioData.profile.tagline}
+                            </h2>
+                            
+                            <p className=\\"text-xl text-blue-300 mb-12\\">
+                                {portfolioData.profile.subtitle}
+                            </p>
+                            
+                            <button 
+                                onClick={() => scrollToSection('projects')}
+                                className=\\"bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-lg\\"
+                            >
+                                View My Work
+                            </button>
+                        </div>
+                    </section>
+                    
+                    {/* Projects Section */}
+                    <section id=\\"projects\\" className=\\"py-20 px-6 bg-gradient-to-br from-gray-900 via-black to-purple-900/20\\">
+                        <div className=\\"container mx-auto max-w-7xl\\">
+                            <div className=\\"text-center mb-16\\">
+                                <h2 className=\\"text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-yellow-400 bg-clip-text text-transparent\\">
+                                    Major Projects
+                                </h2>
+                                <p className=\\"text-xl text-gray-300 max-w-3xl mx-auto\\">
+                                    Transformative multimedia experiences that blend storytelling with cutting-edge technology
+                                </p>
+                            </div>
+
+                            <div className=\\"grid md:grid-cols-2 lg:grid-cols-3 gap-8\\">
+                                {portfolioData.projects.map((project) => (
+                                    <div key={project.id} className=\\"glass-card hover:glass-card-hover transition-all duration-300 border-0 shadow-xl overflow-hidden group h-full rounded-lg\\">
+                                        <div className=\\"relative\\">
+                                            <img 
+                                                src={project.image} 
+                                                alt={project.title}
+                                                className=\\"w-full h-48 object-cover transition-all duration-500 group-hover:scale-110\\"
+                                            />
+                                            <div className=\\"absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent\\" />
+                                            <div className=\\"absolute top-4 right-4\\">
+                                                <span className=\\"bg-gradient-to-r from-purple-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs\\">
+                                                    {project.year}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className=\\"p-6\\">
+                                            <h3 className=\\"text-lg font-semibold text-white mb-2 group-hover:text-blue-300 transition-colors\\">
+                                                {project.title}
+                                            </h3>
+                                            <p className=\\"text-sm text-yellow-300 mb-3\\">
+                                                {project.category}
+                                            </p>
+                                            <p className=\\"text-gray-300 leading-relaxed text-sm mb-4\\">
+                                                {project.description}
+                                            </p>
+                                            
+                                            {project.videoUrl && (
+                                                <button
+                                                    onClick={() => window.open(project.videoUrl, '_blank')}
+                                                    className=\\"bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-4 py-2 text-sm rounded-lg transition-all duration-300\\"
+                                                >
+                                                    ▶ Watch on YouTube
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {/* Contact Section */}
+                    <section id=\\"contact\\" className=\\"py-20 px-6 bg-gradient-to-br from-black via-gray-900 to-blue-900/20\\">
+                        <div className=\\"container mx-auto max-w-4xl text-center\\">
+                            <h2 className=\\"text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-yellow-400 bg-clip-text text-transparent\\">
+                                Let's Create Something Extraordinary
+                            </h2>
+                            <p className=\\"text-xl text-gray-300 mb-8\\">
+                                Whether you're looking to explore the intersection of art and technology, develop innovative multimedia experiences, or discuss creative collaboration, I'd love to connect.
+                            </p>
+                            <div className=\\"glass-card p-8 rounded-xl max-w-md mx-auto\\">
+                                <h3 className=\\"text-white text-xl mb-4\\">Get In Touch</h3>
+                                <p className=\\"text-gray-300 mb-4\\">Toronto, Canada</p>
+                                <button className=\\"bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg\\">
+                                    Contact Me
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    {/* Footer */}
+                    <footer className=\\"py-8 text-center border-t border-white/10\\">
+                        <p className=\\"text-gray-400\\">
+                            © 2024 Ajith Vasu. Crafted with passion, technology, and mindfulness.
+                        </p>
+                    </footer>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+    
+    <script src=\\"https://unpkg.com/@babel/standalone/babel.min.js\\"></script>
+    <script>
+        // Transform JSX
+        const scripts = document.querySelectorAll('script[type=\\"text/babel\\"]');
+        scripts.forEach(script => {
+            const transformedCode = Babel.transform(script.innerHTML, {
+                presets: ['react']
+            }).code;
+            const newScript = document.createElement('script');
+            newScript.innerHTML = transformedCode;
+            document.body.appendChild(newScript);
+        });
+    </script>
+</body>
+</html>\""
